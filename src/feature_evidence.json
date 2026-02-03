@@ -1,0 +1,78 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-fix-the-multi-file-evidence-zip-download-so-it-fetches-evidence-blobs-using-the-exact-same-effective-access-mechanism-as-single-file-downloads-same-url-resolution-and-any-required-auth-headers-so-that-zip-creation-succeeds-whenever-at-least-one-evidence-file-is-accessible",
+      "featureTitle": "Fix the multi-file evidence ZIP download so it fetches evidence blobs using the exact same effective access mechanism as single-file downloads (same URL resolution and any required auth/headers), so that ZIP creation succeeds whenever at least one evidence file is accessible.",
+      "files": [
+        "frontend/src/hooks/useEvidenceArchiveDownload.ts",
+        "frontend/src/utils/evidenceArchiveDownload.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@1.1.2",
+        "stripe@1.0.1",
+        "http-outcalls@1.1.1",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "user-approval@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-frontend-src-utils-evidencearchivedownload-ts-to-fetch-each-evidence-file-in-a-browser-compatible-way-for-binary-content-arraybuffer-blob-without-relying-on-implicit-content-type-handling-and-ensure-it-works-for-pdfs-images-audio-and-video-evidence-paths",
+      "featureTitle": "Update `frontend/src/utils/evidenceArchiveDownload.ts` to fetch each evidence file in a browser-compatible way for binary content (ArrayBuffer/Blob), without relying on implicit content-type handling, and ensure it works for PDFs, images, audio, and video evidence paths.",
+      "files": [
+        "frontend/src/components/MultipleEvidenceModal.tsx",
+        "frontend/src/utils/evidenceArchiveDownload.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@1.1.2",
+        "stripe@1.0.1",
+        "http-outcalls@1.1.1",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "user-approval@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-both-existing-download-as-archive-entry-points-under-a-review-evidence-list-and-inside-the-multiple-evidence-modal-call-one-shared-zip-download-flow-so-they-cannot-diverge-same-resolver-same-progress-disabled-state-same-success-failure-behavior",
+      "featureTitle": "Ensure both existing “Download as archive” entry points (under a review evidence list and inside the multiple-evidence modal) call one shared ZIP download flow so they cannot diverge (same resolver, same progress/disabled state, same success/failure behavior).",
+      "files": [
+        "frontend/src/components/MultipleEvidenceModal.tsx",
+        "frontend/src/pages/CompanyPage.tsx",
+        "frontend/src/utils/evidenceArchiveDownload.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@1.1.2",
+        "stripe@1.0.1",
+        "http-outcalls@1.1.1",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "user-approval@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

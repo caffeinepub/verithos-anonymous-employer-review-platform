@@ -1,0 +1,71 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-03T18:41:29.993Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Fix the multi-file evidence ZIP download so it fetches evidence blobs using the exact same effective access mechanism as single-file downloads (same URL resolution and any required auth/headers), so that ZIP creation succeeds whenever at least one evidence file is accessible.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/blob-storage/FileStorage.ts",
+          "frontend/src/utils/evidenceArchiveDownload.ts",
+          "frontend/src/hooks/useEvidenceArchiveDownload.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/evidenceArchiveDownload.ts",
+          "frontend/src/hooks/useEvidenceArchiveDownload.ts"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Update `frontend/src/utils/evidenceArchiveDownload.ts` to fetch each evidence file in a browser-compatible way for binary content (ArrayBuffer/Blob), without relying on implicit content-type handling, and ensure it works for PDFs, images, audio, and video evidence paths.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/utils/evidenceArchiveDownload.ts",
+          "frontend/src/components/MultipleEvidenceModal.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/evidenceArchiveDownload.ts",
+          "frontend/src/components/MultipleEvidenceModal.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Ensure both existing “Download as archive” entry points (under a review evidence list and inside the multiple-evidence modal) call one shared ZIP download flow so they cannot diverge (same resolver, same progress/disabled state, same success/failure behavior).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/MultipleEvidenceModal.tsx",
+          "frontend/src/pages/CompanyPage.tsx",
+          "frontend/src/utils/evidenceArchiveDownload.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/MultipleEvidenceModal.tsx",
+          "frontend/src/pages/CompanyPage.tsx",
+          "frontend/src/utils/evidenceArchiveDownload.ts"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/MultipleEvidenceModal.tsx",
+    "frontend/src/hooks/useEvidenceArchiveDownload.ts",
+    "frontend/src/pages/CompanyPage.tsx",
+    "frontend/src/utils/evidenceArchiveDownload.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

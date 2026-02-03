@@ -1,0 +1,74 @@
+{
+  "kind": "build_request",
+  "title": "Fix evidence “Download as archive (ZIP)” so it can fetch blobs reliably (no empty ZIP) while single-file downloads keep working",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Fix the multi-file evidence ZIP download so it fetches evidence blobs using the exact same effective access mechanism as single-file downloads (same URL resolution and any required auth/headers), so that ZIP creation succeeds whenever at least one evidence file is accessible.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "Потвърждавам че единичните файлове се теглят успешно.",
+          "Бутонът за теглене отново не върши работа, връща съобщение \"Не успяхме да включим нито един файл в архива. Моля, опитайте отново по-късно.\".",
+          "Failed to load resource: the server responded with a status of 400 () https://blob.caffeine.ai/api/files/default-bucket/evidence/123456789/invoice-design.pdf"
+        ]
+      },
+      "acceptanceCriteria": [
+        "From the review card evidence section (“Download as archive”) and from the MultipleEvidenceModal (“Download as archive”), when evidencePaths contains at least one file that can be downloaded individually, the ZIP download produces a non-empty ZIP that includes all accessible files.",
+        "ZIP fetches do not use a hardcoded gateway URL construction that bypasses the single-file download path; instead they reuse the same resolver/flow used by `useFileUrl(...)` so the same evidence that works individually also works in ZIP.",
+        "If some evidence files fail to fetch, the ZIP still downloads with the successfully fetched files and includes the existing `_archive_info.txt` summary listing failures; only when all files fail does the UI show the existing ‘no files could be included’ message."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Update `frontend/src/utils/evidenceArchiveDownload.ts` to fetch each evidence file in a browser-compatible way for binary content (ArrayBuffer/Blob), without relying on implicit content-type handling, and ensure it works for PDFs, images, audio, and video evidence paths.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "Failed to load resource: the server responded with a status of 400 ()",
+          "Файлове се качват само при изпращане на мнения към определен работодател..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "ZIP creation correctly includes binary content for at least: .pdf, .png/.jpg, .mp4, .mp3 (no zero-byte entries).",
+        "The ZIP implementation does not depend on browser navigation/download behavior; it uses explicit fetch + binary read and validates non-empty results before adding to the ZIP."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Ensure both existing “Download as archive” entry points (under a review evidence list and inside the multiple-evidence modal) call one shared ZIP download flow so they cannot diverge (same resolver, same progress/disabled state, same success/failure behavior).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "бутона за теглене като архив го има само под мненията на потребителите и при модала за визуализация на всички доказателства от едно мнение."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Triggering ZIP download from either location results in identical network behavior (same resolved URLs and request options) and identical user feedback.",
+        "While ZIP creation is running, the initiating button is disabled and shows the existing in-progress label/state (no duplicate concurrent ZIP runs)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files under the immutable frontend paths listed in SYSTEM_CONTEXT.",
+    "Keep the backend single-actor architecture unchanged; only introduce backend changes if proven strictly necessary for ZIP access parity with single-file downloads."
+  ],
+  "nonGoals": [
+    "Do not add new evidence upload locations or change where evidence uploads are allowed (they remain tied to review submission).",
+    "Do not redesign the evidence UI beyond what is necessary to fix ZIP downloading behavior."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

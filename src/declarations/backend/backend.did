@@ -1,0 +1,74 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = record {};
+type Time = int;
+type Review = 
+ record {
+   companyId: text;
+   content: text;
+   evidencePaths: vec text;
+   hash: text;
+   jobSecurityRating: float64;
+   managementRating: float64;
+   otherRating: float64;
+   payRating: float64;
+   reported: bool;
+   supporters: vec principal;
+   timestamp: Time;
+   workConditionsRating: float64;
+ };
+type FileReference = 
+ record {
+   hash: text;
+   path: text;
+ };
+type Company = 
+ record {
+   adminEditReason: opt text;
+   averageJobSecurityRating: float64;
+   averageManagementRating: float64;
+   averageOtherRating: float64;
+   averagePayRating: float64;
+   averageWorkConditionsRating: float64;
+   city: text;
+   createdAt: Time;
+   description: text;
+   editedByAdmin: bool;
+   name: text;
+   overallRating: float64;
+   ownerName: text;
+   registrationNumber: text;
+   sector: text;
+   website: opt text;
+ };
+service : {
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createCompany: (name: text, description: text, ownerName: text,
+   registrationNumber: text, city: text, sector: text, website: opt text) ->
+   ();
+  dropFileReference: (path: text) -> ();
+  editCompany: (registrationNumber: text, newName: text, newDescription:
+   text, newOwnerName: text, newCity: text, newSector: text, newWebsite:
+   opt text, editReason: text) -> ();
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCompanies: () -> (vec Company) query;
+  getFileReference: (path: text) -> (FileReference) query;
+  getReviewsForCompany: (companyId: text) -> (vec Review) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  initializeAccessControl: () -> ();
+  isCallerAdmin: () -> (bool) query;
+  listFileReferences: () -> (vec FileReference) query;
+  registerFileReference: (path: text, hash: text) -> ();
+  reportReview: (hash: text) -> ();
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  submitReview: (companyId: text, content: text, evidencePaths: vec text,
+   hash: text, payRating: float64, workConditionsRating: float64,
+   managementRating: float64, jobSecurityRating: float64, otherRating:
+   float64) -> ();
+  supportReview: (hash: text) -> ();
+}
