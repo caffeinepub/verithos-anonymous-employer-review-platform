@@ -1,58 +1,29 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-03T18:41:29.931Z",
-  "summary": "The diff partially updates the ZIP creation utility to fetch binary content via `fetch(...).arrayBuffer()` and validate non-empty responses, but it does not clearly implement a complete, shared ZIP-download flow that reuses the same effective URL/auth mechanism as single-file downloads across both UI entry points. A newly added hook intended to unify behavior appears incomplete (throws an error) and is not evidenced as integrated. The diff summary also indicates multiple unrelated UI/feature changes outside the requested scope.",
-  "missing_requirements": [
-    {
-      "id": "REQ-1",
-      "requirement": "Fix the multi-file evidence ZIP download so it fetches evidence blobs using the exact same effective access mechanism as single-file downloads (same URL resolution and any required auth/headers), avoiding hardcoded gateway URL construction and reusing the same resolver/flow used by `useFileUrl(...)`.",
-      "reason": "The new hook `useEvidenceArchiveDownload` claims to use `useFileUrl`, but its implementation is a placeholder that does not actually resolve URLs and explicitly throws an error. The updated ZIP utility requires pre-resolved URLs but does not itself demonstrate reuse of the same `useFileUrl(...)` resolver/flow, and there is no clear, working end-to-end shared resolver+fetch path shown in the diff summary.",
-      "evidence": [
-        "frontend/src/hooks/useEvidenceArchiveDownload.ts",
-        "frontend/src/utils/evidenceArchiveDownload.ts"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "requirement": "Ensure both existing “Download as archive” entry points (review evidence list and MultipleEvidenceModal) call one shared ZIP download flow so they cannot diverge (same resolver, same progress/disabled state, same success/failure behavior), and prevent duplicate concurrent ZIP runs.",
-      "reason": "A shared hook file was added, but it is not a functioning shared flow (it throws) and there is no clear evidence both entry points are wired to it. The truncated `MultipleEvidenceModal` still shows local `isDownloading` state, suggesting per-component handling rather than a single shared flow.",
-      "evidence": [
-        "frontend/src/hooks/useEvidenceArchiveDownload.ts",
-        "frontend/src/components/MultipleEvidenceModal.tsx"
-      ]
-    }
-  ],
+  "generatedAt": "2026-02-08T18:56:07.244Z",
+  "summary": "REQ-1 appears implemented in frontend/index.html (verithos.com removed; canonical/og:url set to https://verithos.io/; og:image and favicon use relative /assets/...; dns-prefetch uses verithos.io and www.verithos.io). However, the diff also includes substantial unrelated frontend component/style/hook changes that go beyond the requested metadata/URL-only scope.",
+  "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "Added unrelated UI/navigation changes (e.g., updated header logo, mobile menu changes, new menu item, styling changes).",
-      "reason": "Not requested in the BuildRequest; scope was limited to fixing evidence ZIP downloads without redesigning unrelated UI.",
+      "description": "Multiple unrelated frontend feature/UI changes (routing/CTA rendering, new menu item, admin/request modals logic changes, file upload behavior changes, styling updates, etc.) beyond static <head> metadata adjustments.",
+      "reason": "BuildRequest constraints limit changes to metadata/URL adjustments to remove verithos.com usage and apply verithos.io fallback; these changes alter application behavior and UI.",
       "evidence": [
-        "frontend-file-summaries.txt (App.tsx, MobileMenu.tsx)"
+        "frontend-file-summaries.txt (entries for frontend/src/App.tsx, frontend/src/components/MobileMenu.tsx, frontend/src/components/OfficialProfileRequestModal.tsx, frontend/src/index.css, frontend/src/hooks/useQueries.ts, frontend/src/pages/AdminOfficialProfileRequestsPage.tsx, frontend/src/components/OfficialResponseModal.tsx, frontend/src/pages/CompanyPage.tsx, frontend/src/components/ReviewSubmissionModal.tsx, frontend/src/blob-storage/FileStorage.ts, etc.)"
       ]
     },
     {
-      "description": "Added/modified official profile request/admin workflows (modal field reordering, EIK autosuggestion, approve/reject flow requiring rejection reason, etc.).",
-      "reason": "Not requested; unrelated to evidence ZIP downloading.",
+      "description": "Updated project tracking/state metadata unrelated to implementing the requested head-tag URL changes.",
+      "reason": "BuildRequest does not request modifications to project_state.json; it only requests static <head> metadata updates in frontend/index.html.",
       "evidence": [
-        "frontend-file-summaries.txt (OfficialProfileRequestModal.tsx, AdminOfficialProfileRequestsPage.tsx)"
-      ]
-    },
-    {
-      "description": "Introduced loading JSZip from a public CDN at runtime.",
-      "reason": "Not requested by the BuildRequest (which focused on access parity and binary-safe fetch); adding a CDN dependency is an extra behavior not specified.",
-      "evidence": [
-        "frontend/src/utils/evidenceArchiveDownload.ts"
+        "project_state.json"
       ]
     }
   ],
-  "confidence": 0.66,
+  "confidence": 0.74,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/MultipleEvidenceModal.tsx",
-    "frontend/src/hooks/useEvidenceArchiveDownload.ts",
-    "frontend/src/pages/CompanyPage.tsx",
-    "frontend/src/utils/evidenceArchiveDownload.ts",
+    "frontend/index.html",
     "project_state.json"
   ]
 }

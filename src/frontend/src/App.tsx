@@ -183,7 +183,7 @@ function App() {
               onClick={() => handleNavigate('landing')}
             >
               <img 
-                src="/assets/verithos-logo-rgb-shield-1.png" 
+                src="/assets/verithos-logo-rgb-shield.png" 
                 alt="Verithos Logo" 
                 className="w-10 h-10 object-contain"
               />

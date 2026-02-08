@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { useFileUrl } from '@/blob-storage/FileStorage';
+import { usePdfObjectUrl } from '../hooks/usePdfObjectUrl';
 import AdminSuggestionsPage from './AdminSuggestionsPage';
 
 interface AdminPageProps {
@@ -22,6 +23,9 @@ function ConfirmationDocumentDisplay({ path }: { path: string }) {
   const { data: fileUrl } = useFileUrl(path);
   const isPdf = path.match(/\.pdf$/i);
   const isImage = path.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+  
+  // Use blob URL for PDFs to prevent auto-download
+  const { blobUrl: pdfBlobUrl, isLoading: pdfLoading } = usePdfObjectUrl(isPdf ? fileUrl : undefined);
 
   if (!fileUrl) {
     return <span className="text-gray-500 text-sm">Зареждане...</span>;
@@ -49,7 +53,9 @@ function ConfirmationDocumentDisplay({ path }: { path: string }) {
 
   const handleOpenInNewTab = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.open(fileUrl, '_blank', 'noopener,noreferrer');
+    // Use blob URL for PDFs to prevent auto-download in new tab
+    const urlToOpen = isPdf && pdfBlobUrl ? pdfBlobUrl : fileUrl;
+    window.open(urlToOpen, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -57,12 +63,25 @@ function ConfirmationDocumentDisplay({ path }: { path: string }) {
       {/* Inline preview */}
       <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
         {isPdf ? (
-          <iframe
-            src={`${fileUrl}#view=FitH`}
-            className="w-full h-96"
-            title="Документ за потвърждение"
-            style={{ backgroundColor: '#525659' }}
-          />
+          pdfLoading ? (
+            <div className="w-full h-96 flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                <p className="text-sm text-gray-600">Зареждане на PDF...</p>
+              </div>
+            </div>
+          ) : pdfBlobUrl ? (
+            <iframe
+              src={`${pdfBlobUrl}#view=FitH`}
+              className="w-full h-96"
+              title="Документ за потвърждение"
+              style={{ backgroundColor: '#525659' }}
+            />
+          ) : (
+            <div className="p-4 text-center text-gray-600">
+              Грешка при зареждане на PDF
+            </div>
+          )
         ) : isImage ? (
           <img
             src={fileUrl}

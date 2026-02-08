@@ -38,7 +38,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <img 
-              src="/assets/verithos-logo-rgb-shield-1.png" 
+              src="/assets/verithos-logo-rgb-shield.png" 
               alt="Verithos Logo" 
               className="w-24 h-24 mx-auto mb-8 object-contain"
             />

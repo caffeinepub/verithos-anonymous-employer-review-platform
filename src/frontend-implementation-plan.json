@@ -1,76 +1,24 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Evidence ZIP download parity with single-file downloads (reliable blob fetching, shared flow)",
+  "title": "Update head metadata URLs to use relative paths and verithos.io base",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Make multi-file ZIP download reuse the same effective URL resolution and access behavior as single-file evidence downloads so accessible files are consistently included in the archive.",
+      "summary": "Adjust frontend index.html head metadata to remove verithos.com, prefer relative URLs, and use verithos.io only where absolute URLs are required.",
       "acceptanceCriteria": [
-        "From the review card evidence section (“Download as archive”) and from the MultipleEvidenceModal (“Download as archive”), when evidencePaths contains at least one file that can be downloaded individually, the ZIP download produces a non-empty ZIP that includes all accessible files.",
-        "ZIP fetches do not use a hardcoded gateway URL construction that bypasses the single-file download path; instead they reuse the same resolver/flow used by `useFileUrl(...)` so the same evidence that works individually also works in ZIP.",
-        "If some evidence files fail to fetch, the ZIP still downloads with the successfully fetched files and includes the existing `_archive_info.txt` summary listing failures; only when all files fail does the UI show the existing ‘no files could be included’ message."
+        "`frontend/index.html` contains no references to `verithos.com`.",
+        "`<link rel=\"canonical\">` is set to `https://verithos.io/`.",
+        "`<meta property=\"og:url\">` is set to `https://verithos.io/`.",
+        "`<meta property=\"og:image\">` uses a relative path (`/assets/verithos-logo-rgb-shield.png`) rather than an absolute domain URL.",
+        "`<link rel=\"dns-prefetch\">` entries do not reference `verithos.com` (replace with `//verithos.io` and, if kept, `//www.verithos.io`).",
+        "Favicon remains a relative path: `/assets/verithos-logo-rgb-shield.png`."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/blob-storage/FileStorage.ts",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Refactor the existing `useFileUrl(...)` implementation to use a shared, exported non-hook resolver (e.g., `resolveFileUrl(...)`) that returns the exact same effective download URL and any required request options used for single-file access. This shared resolver will be consumed by the ZIP flow to guarantee access parity. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/utils/evidenceArchiveDownload.ts",
-          "operation": "modify",
-          "description": "Remove hardcoded storage gateway URL construction and instead accept a resolver callback (or import the shared resolver exported from the blob-storage layer) so each evidence path is fetched using the same effective URL resolution and access mechanism as single-file downloads, including any required headers/credentials."
-        },
-        {
-          "path": "frontend/src/hooks/useEvidenceArchiveDownload.ts",
-          "operation": "create",
-          "description": "Create a shared hook that orchestrates ZIP download: resolves each evidence URL via the same resolver used by `useFileUrl(...)`, performs fetches with the same request options, aggregates successes/failures, and exposes a single `downloadAsArchive(...)` action plus in-progress state for consistent UI behavior across entry points."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Update evidenceArchiveDownload utility to fetch binary blobs in a browser-compatible way (explicit fetch + ArrayBuffer/Blob handling) and ensure correct ZIP entries for PDFs, images, audio, and video.",
-      "acceptanceCriteria": [
-        "ZIP creation correctly includes binary content for at least: .pdf, .png/.jpg, .mp4, .mp3 (no zero-byte entries).",
-        "The ZIP implementation does not depend on browser navigation/download behavior; it uses explicit fetch + binary read and validates non-empty results before adding to the ZIP."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/utils/evidenceArchiveDownload.ts",
-          "operation": "modify",
-          "description": "Update ZIP creation to read binary content explicitly (e.g., ArrayBuffer -> Uint8Array or Blob) per file, validate non-empty results before adding to JSZip, and ensure consistent filename handling across file types (.pdf, images, audio, video). Ensure `_archive_info.txt` remains included and accurately summarizes failures."
-        },
-        {
-          "path": "frontend/src/components/MultipleEvidenceModal.tsx",
-          "operation": "modify",
-          "description": "Adjust the ZIP download trigger to use the shared ZIP flow (hook) and ensure it passes through binary-safe fetching behavior (no reliance on browser navigation downloads) while keeping the existing user messaging."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Ensure both “Download as archive” entry points use one shared ZIP download flow with identical network behavior and consistent progress/disabled state.",
-      "acceptanceCriteria": [
-        "Triggering ZIP download from either location results in identical network behavior (same resolved URLs and request options) and identical user feedback.",
-        "While ZIP creation is running, the initiating button is disabled and shows the existing in-progress label/state (no duplicate concurrent ZIP runs)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/MultipleEvidenceModal.tsx",
-          "operation": "modify",
-          "description": "Replace local ZIP download logic with the shared `useEvidenceArchiveDownload` flow so the modal entry point cannot diverge from the review-card entry point, including disabled/in-progress state and success/failure behavior."
-        },
-        {
-          "path": "frontend/src/pages/CompanyPage.tsx",
-          "operation": "modify",
-          "description": "Update the review-card evidence section ZIP button (`DownloadAllButton`) to call the same shared `useEvidenceArchiveDownload` flow used by `MultipleEvidenceModal`, ensuring identical URL resolution, request options, progress state, and user feedback."
-        },
-        {
-          "path": "frontend/src/utils/evidenceArchiveDownload.ts",
-          "operation": "modify",
-          "description": "Consolidate the public API of the archive utility so it is invoked by exactly one shared flow (the hook), preventing duplicated fetch/ZIP logic across components and keeping success/failure handling consistent."
+          "description": "Update only <head> metadata URL fields: replace canonical and og:url with https://verithos.io/; replace og:image absolute URL with relative /assets/verithos-logo-rgb-shield.png; replace any dns-prefetch entries from //verithos.com and //www.verithos.com to //verithos.io (and optionally keep //www.verithos.io); ensure no remaining verithos.com references and keep favicon href as the existing relative /assets/verithos-logo-rgb-shield.png. Limit changes strictly to these metadata/URL adjustments."
         }
       ]
     }
