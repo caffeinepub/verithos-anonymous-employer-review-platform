@@ -1,29 +1,38 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T18:56:07.244Z",
-  "summary": "REQ-1 appears implemented in frontend/index.html (verithos.com removed; canonical/og:url set to https://verithos.io/; og:image and favicon use relative /assets/...; dns-prefetch uses verithos.io and www.verithos.io). However, the diff also includes substantial unrelated frontend component/style/hook changes that go beyond the requested metadata/URL-only scope.",
-  "missing_requirements": [],
-  "hallucinated_features": [
+  "generatedAt": "2026-02-08T21:33:58.458Z",
+  "summary": "The diff does not provide evidence that the \"Статистика\" block was removed from `MyOfficialProfilePage.tsx`. Additionally, unrelated project/meta files were modified, which were not requested by the BuildRequest.",
+  "missing_requirements": [
     {
-      "description": "Multiple unrelated frontend feature/UI changes (routing/CTA rendering, new menu item, admin/request modals logic changes, file upload behavior changes, styling updates, etc.) beyond static <head> metadata adjustments.",
-      "reason": "BuildRequest constraints limit changes to metadata/URL adjustments to remove verithos.com usage and apply verithos.io fallback; these changes alter application behavior and UI.",
+      "id": "REQ-1",
+      "requirement": "Remove the entire \"Статистика\" (Statistics) UI block from the employer page (My Official Profile page) in `frontend/src/pages/MyOfficialProfilePage.tsx`, without changing any other content, styling, layout, behavior, data fetching, or business logic.",
+      "reason": "The provided diff for `frontend/src/pages/MyOfficialProfilePage.tsx` is truncated and shows no explicit removal of a rendered section/card titled \"Статистика\"; therefore the acceptance criterion that the block is no longer rendered cannot be verified from the evidence.",
       "evidence": [
-        "frontend-file-summaries.txt (entries for frontend/src/App.tsx, frontend/src/components/MobileMenu.tsx, frontend/src/components/OfficialProfileRequestModal.tsx, frontend/src/index.css, frontend/src/hooks/useQueries.ts, frontend/src/pages/AdminOfficialProfileRequestsPage.tsx, frontend/src/components/OfficialResponseModal.tsx, frontend/src/pages/CompanyPage.tsx, frontend/src/components/ReviewSubmissionModal.tsx, frontend/src/blob-storage/FileStorage.ts, etc.)"
-      ]
-    },
-    {
-      "description": "Updated project tracking/state metadata unrelated to implementing the requested head-tag URL changes.",
-      "reason": "BuildRequest does not request modifications to project_state.json; it only requests static <head> metadata updates in frontend/index.html.",
-      "evidence": [
-        "project_state.json"
+        "frontend/src/pages/MyOfficialProfilePage.tsx (truncated)"
       ]
     }
   ],
-  "confidence": 0.74,
+  "hallucinated_features": [
+    {
+      "description": "Modified `project_state.json` to add/track feature requests (AR-1/AR-2) and mark them pending.",
+      "reason": "The BuildRequest only asks for removal of a UI block in `MyOfficialProfilePage.tsx` and explicitly constrains changes to avoid unrelated modifications; updating project tracking state is not requested.",
+      "evidence": [
+        "project_state.json"
+      ]
+    },
+    {
+      "description": "Modified `frontend-file-summaries.txt`, containing broad descriptions of many components and features unrelated to removing the Statistics block.",
+      "reason": "This file and its unrelated content changes are not requested by the BuildRequest and do not directly implement REQ-1.",
+      "evidence": [
+        "frontend-file-summaries.txt (truncated)"
+      ]
+    }
+  ],
+  "confidence": 0.62,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/index.html",
+    "frontend/src/pages/MyOfficialProfilePage.tsx",
     "project_state.json"
   ]
 }

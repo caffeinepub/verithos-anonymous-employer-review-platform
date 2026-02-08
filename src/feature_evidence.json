@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-frontend-index-html-head-metadata-so-that-all-urls-use-relative-paths-where-valid-and-use-the-absolute-base-domain-verithos-io-only-where-a-relative-url-is-not-appropriate-e-g-canonical-and-open-graph-page-url-replace-any-remaining-verithos-com-references-accordingly",
-      "featureTitle": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
+      "featureId": "feature-remove-the-entire-statistics-ui-block-from-the-employer-page-my-official-profile-page-in-frontend-src-pages-myofficialprofilepage-tsx-without-changing-any-other-content-styling-layout-behavior-data-fetching-or-business-logic-on-the-page-or-elsewhere-in-the-app",
+      "featureTitle": "Remove the entire \"Статистика\" (Statistics) UI block from the employer page (My Official Profile page) in `frontend/src/pages/MyOfficialProfilePage.tsx`, without changing any other content, styling, layout, behavior, data fetching, or business logic on the page or elsewhere in the app.",
       "files": [
-        "frontend/index.html"
+        "frontend/src/pages/MyOfficialProfilePage.tsx"
       ],
       "components": [
         "authorization@1.0.1",

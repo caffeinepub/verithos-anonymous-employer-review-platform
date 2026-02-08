@@ -107,30 +107,6 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         </div>
       </div>
 
-      {/* Origin of Name Section */}
-      <div className="py-16 bg-white border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Произходът на името Verithos</h2>
-            <div className="w-24 h-1 bg-amber-500 mx-auto"></div>
-          </div>
-          
-          <div className="prose prose-lg mx-auto text-gray-700">
-            <p className="text-lg leading-relaxed mb-6">
-              Името <strong>Verithos</strong> произлиза от латинската дума <strong>veritas</strong>, която означава <strong>истина</strong>. Добавката <strong>-thos</strong> идва от древногръцкия корен <strong>ethos</strong>, който се отнася до <strong>характер</strong>, <strong>морал</strong> и <strong>етични принципи</strong>.
-            </p>
-            
-            <p className="text-lg leading-relaxed mb-6">
-              Така <strong>Verithos</strong> символизира <strong>истината, основана на морални принципи</strong> - не просто фактите, а <strong>истината, която се ръководи от етика и справедливост</strong>. Това е <strong>истина с характер</strong>, която не се страхува да бъде изказана, дори когато е неудобна.
-            </p>
-            
-            <p className="text-lg leading-relaxed">
-              Нашата платформа носи това име, защото вярваме, че <strong>истинската промяна идва не само от споделянето на факти, а от споделянето на истини, които са морално обосновани и етично мотивирани</strong>. <strong>Verithos</strong> е мястото, където <strong>истината среща характера</strong>.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Features Section */}
       <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

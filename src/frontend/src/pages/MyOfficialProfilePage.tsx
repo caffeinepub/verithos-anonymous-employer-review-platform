@@ -121,13 +121,6 @@ export default function MyOfficialProfilePage({ onNavigate }: MyOfficialProfileP
   const isOfficialProfileApproved = officialProfileRequest?.status === 'approved';
   const employerRequestStatus = officialProfileRequest?.status || 'none';
 
-  // Handler for navigating to the latest review
-  const handleNavigateToLatestReview = () => {
-    if (company && totalReviews > 0) {
-      onNavigate('company', company.registrationNumber);
-    }
-  };
-
   // Handlers for subscription status toggle using correct backend functions - LOGIC KEPT INTACT
   const handleActivateSubscription = async () => {
     if (!company?.registrationNumber) {
@@ -323,370 +316,255 @@ export default function MyOfficialProfilePage({ onNavigate }: MyOfficialProfileP
               </div>
             </div>
 
-            {/* Statistics Panel - NOW SECOND */}
-            <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-8">
-              <div className="flex items-center mb-6">
-                <Building2 className="w-8 h-8 text-amber-500 mr-3" />
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Статистика</h2>
-                  <div className="flex items-center mt-1">
-                    <CheckCircle2 className="w-4 h-4 text-green-600 mr-2" />
-                    <span className="text-green-600 text-sm font-medium">Официален профил – активен</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {/* Total Reviews - Clickable */}
-                <button
-                  onClick={handleNavigateToLatestReview}
-                  disabled={totalReviews === 0}
-                  className={`bg-gray-50 rounded-lg p-4 border border-gray-200 text-left transition-all ${
-                    totalReviews > 0 
-                      ? 'hover:bg-blue-50 hover:border-blue-300 cursor-pointer' 
-                      : 'cursor-not-allowed opacity-60'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <MessageSquare className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{totalReviews}</div>
-                  <div className="text-sm text-gray-600">Общо мнения</div>
-                </button>
-
-                {/* Average Rating - Always shows numeric value */}
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <Star className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">
-                    {averageRating.toFixed(1)}
-                  </div>
-                  <div className="text-sm text-gray-600">Средна оценка</div>
-                </div>
-
-                {/* Answered Reviews Count */}
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <Reply className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{answeredReviews}</div>
-                  <div className="text-sm text-gray-600">Отговорени мнения</div>
-                </div>
-
-                {/* Response Rate */}
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <CheckCircle2 className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">
-                    {totalReviews > 0 ? `${answeredReviews} / ${totalReviews}` : '0 / 0'}
-                  </div>
-                  <div className="text-sm text-gray-600">Брой отговорени / общ брой</div>
-                </div>
-              </div>
-            </div>
-
             {/* Rating History Section - ACCESS BASED ONLY ON APPROVED STATUS */}
             <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <TrendingUp className="w-6 h-6 text-blue-600" />
-                <h3 className="text-xl font-bold text-gray-900">Рейтинг във времето</h3>
+                <h3 className="text-xl font-bold text-gray-900">История на рейтинга</h3>
               </div>
-              
-              {!isOfficialProfileApproved ? (
-                // Locked State - Show when official profile is not approved
-                <div className="flex flex-col items-center justify-center py-12 px-4">
-                  <div className="bg-gray-100 rounded-full p-6 mb-6">
-                    <CheckCircle2 className="w-12 h-12 text-gray-400" />
-                  </div>
-                  <p className="text-lg text-gray-700 text-center mb-6">
-                    Функцията е достъпна с одобрен официален профил.
-                  </p>
-                  <button
-                    onClick={handleOpenOfficialProfileRequestModal}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-                  >
-                    Заявка за официален профил
-                  </button>
+
+              {/* Period Selector */}
+              <div className="flex gap-2 mb-6">
+                <button
+                  onClick={() => setSelectedPeriod(TimePeriod.days)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedPeriod === TimePeriod.days
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  30 дни
+                </button>
+                <button
+                  onClick={() => setSelectedPeriod(TimePeriod.months)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedPeriod === TimePeriod.months
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  12 месеца
+                </button>
+                <button
+                  onClick={() => setSelectedPeriod(TimePeriod.years)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedPeriod === TimePeriod.years
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  5 години
+                </button>
+              </div>
+
+              {/* Chart */}
+              {ratingHistoryLoading ? (
+                <div className="h-64 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                </div>
+              ) : chartData.length > 0 ? (
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis 
+                        dataKey="date" 
+                        stroke="#6b7280"
+                        style={{ fontSize: '12px' }}
+                      />
+                      <YAxis 
+                        domain={[0, 5]} 
+                        stroke="#6b7280"
+                        style={{ fontSize: '12px' }}
+                      />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend />
+                      <Line 
+                        type="monotone" 
+                        dataKey="Общ рейтинг" 
+                        stroke="#2563eb" 
+                        strokeWidth={2}
+                        dot={{ fill: '#2563eb', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               ) : (
-                // Active State - Show chart and filters when official profile is approved
-                <>
-                  {/* Period Selection */}
-                  <div className="flex justify-end gap-2 mb-6">
-                    <button
-                      onClick={() => setSelectedPeriod(TimePeriod.days)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        selectedPeriod === TimePeriod.days
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      Дни
-                    </button>
-                    <button
-                      onClick={() => setSelectedPeriod(TimePeriod.months)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        selectedPeriod === TimePeriod.months
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      Месеци
-                    </button>
-                    <button
-                      onClick={() => setSelectedPeriod(TimePeriod.years)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        selectedPeriod === TimePeriod.years
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      Години
-                    </button>
-                  </div>
-
-                  {ratingHistoryLoading ? (
-                    <div className="h-80 flex items-center justify-center">
-                      <div className="animate-pulse text-gray-500">Зареждане на данни...</div>
-                    </div>
-                  ) : chartData.length === 0 ? (
-                    <div className="h-80 flex items-center justify-center">
-                      <div className="text-center">
-                        <Star className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500">Все още няма достатъчно данни за показване на тенденция.</p>
-                        <p className="text-sm text-gray-400 mt-2">Данните ще се появят след като получите повече мнения.</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="h-80">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
-                          data={chartData}
-                          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                          <XAxis 
-                            dataKey="date" 
-                            tick={{ fill: '#6b7280', fontSize: 12 }}
-                            stroke="#9ca3af"
-                          />
-                          <YAxis 
-                            domain={[0, 5]}
-                            ticks={[0, 1, 2, 3, 4, 5]}
-                            tick={{ fill: '#6b7280', fontSize: 12 }}
-                            stroke="#9ca3af"
-                          />
-                          <Tooltip content={<CustomTooltip />} />
-                          <Legend 
-                            wrapperStyle={{ paddingTop: '20px' }}
-                            iconType="line"
-                          />
-                          <Line 
-                            type="monotone" 
-                            dataKey="Общ рейтинг" 
-                            stroke="#2563eb" 
-                            strokeWidth={2}
-                            dot={{ fill: '#2563eb', r: 4 }}
-                            activeDot={{ r: 6 }}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                  )}
-
-                  {/* Trend Indicators */}
-                  {chartData.length >= 2 && (
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {(() => {
-                          const firstRating = chartData[0]['Общ рейтинг'];
-                          const lastRating = chartData[chartData.length - 1]['Общ рейтинг'];
-                          const change = lastRating - firstRating;
-                          const percentChange = firstRating > 0 ? ((change / firstRating) * 100).toFixed(1) : '0.0';
-                          
-                          return (
-                            <>
-                              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div className="text-sm text-gray-600 mb-1">Начална стойност</div>
-                                <div className="text-2xl font-bold text-gray-900">{firstRating.toFixed(2)}</div>
-                              </div>
-                              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div className="text-sm text-gray-600 mb-1">Текуща стойност</div>
-                                <div className="text-2xl font-bold text-gray-900">{lastRating.toFixed(2)}</div>
-                              </div>
-                              <div className={`rounded-lg p-4 border ${
-                                change > 0 
-                                  ? 'bg-green-50 border-green-200' 
-                                  : change < 0 
-                                  ? 'bg-red-50 border-red-200' 
-                                  : 'bg-gray-50 border-gray-200'
-                              }`}>
-                                <div className="text-sm text-gray-600 mb-1">Промяна</div>
-                                <div className={`text-2xl font-bold ${
-                                  change > 0 
-                                    ? 'text-green-600' 
-                                    : change < 0 
-                                    ? 'text-red-600' 
-                                    : 'text-gray-900'
-                                }`}>
-                                  {change > 0 ? '+' : ''}{change.toFixed(2)} ({change > 0 ? '+' : ''}{percentChange}%)
-                                </div>
-                              </div>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  )}
-                </>
+                <div className="h-64 flex items-center justify-center text-gray-500">
+                  Няма налични данни за избрания период
+                </div>
               )}
             </div>
 
-            {/* Category Ratings Section - Computed directly from reviews with proper loading state */}
+            {/* Category Ratings Section */}
             <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <BarChart3 className="w-6 h-6 text-blue-600" />
-                <h3 className="text-xl font-bold text-gray-900">Средни оценки по категории</h3>
+                <h3 className="text-xl font-bold text-gray-900">Оценки по категории</h3>
               </div>
-              
-              {reviewsLoading ? (
-                <div className="text-center py-8">
-                  <div className="animate-pulse text-gray-500">Зареждане на данни...</div>
+
+              <div className="space-y-6">
+                {/* Pay Rating */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Заплащане</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {categoryRatings.payRating.average.toFixed(1)} / 5.0
+                      <span className="text-xs text-gray-500 ml-2">
+                        ({categoryRatings.payRating.count} {categoryRatings.payRating.count === 1 ? 'оценка' : 'оценки'})
+                      </span>
+                    </span>
+                  </div>
+                  <RatingDisplay rating={categoryRatings.payRating.average} />
                 </div>
-              ) : totalReviews === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">Все още няма мнения за показване на оценки по категории.</p>
+
+                {/* Work Conditions Rating */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Условия на труд</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {categoryRatings.workConditionsRating.average.toFixed(1)} / 5.0
+                      <span className="text-xs text-gray-500 ml-2">
+                        ({categoryRatings.workConditionsRating.count} {categoryRatings.workConditionsRating.count === 1 ? 'оценка' : 'оценки'})
+                      </span>
+                    </span>
+                  </div>
+                  <RatingDisplay rating={categoryRatings.workConditionsRating.average} />
                 </div>
-              ) : (
-                <div className="space-y-3">
-                  <RatingDisplay 
-                    rating={categoryRatings.payRating.average} 
-                    label="Заплащане"
-                    size="sm"
-                    className="bg-gray-50 p-3 rounded-md border border-gray-200"
-                    reviewCount={categoryRatings.payRating.count}
-                  />
-                  <RatingDisplay 
-                    rating={categoryRatings.workConditionsRating.average} 
-                    label="Работни условия"
-                    size="sm"
-                    className="bg-gray-50 p-3 rounded-md border border-gray-200"
-                    reviewCount={categoryRatings.workConditionsRating.count}
-                  />
-                  <RatingDisplay 
-                    rating={categoryRatings.managementRating.average} 
-                    label="Отношение на ръководството"
-                    size="sm"
-                    className="bg-gray-50 p-3 rounded-md border border-gray-200"
-                    reviewCount={categoryRatings.managementRating.count}
-                  />
-                  <RatingDisplay 
-                    rating={categoryRatings.jobSecurityRating.average} 
-                    label="Сигурност на работното място"
-                    size="sm"
-                    className="bg-gray-50 p-3 rounded-md border border-gray-200"
-                    reviewCount={categoryRatings.jobSecurityRating.count}
-                  />
-                  <RatingDisplay 
-                    rating={categoryRatings.otherRating.average} 
-                    label="Други"
-                    size="sm"
-                    className="bg-gray-50 p-3 rounded-md border border-gray-200"
-                    reviewCount={categoryRatings.otherRating.count}
-                  />
+
+                {/* Management Rating */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Управление</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {categoryRatings.managementRating.average.toFixed(1)} / 5.0
+                      <span className="text-xs text-gray-500 ml-2">
+                        ({categoryRatings.managementRating.count} {categoryRatings.managementRating.count === 1 ? 'оценка' : 'оценки'})
+                      </span>
+                    </span>
+                  </div>
+                  <RatingDisplay rating={categoryRatings.managementRating.average} />
                 </div>
-              )}
+
+                {/* Job Security Rating */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Сигурност на работното място</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {categoryRatings.jobSecurityRating.average.toFixed(1)} / 5.0
+                      <span className="text-xs text-gray-500 ml-2">
+                        ({categoryRatings.jobSecurityRating.count} {categoryRatings.jobSecurityRating.count === 1 ? 'оценка' : 'оценки'})
+                      </span>
+                    </span>
+                  </div>
+                  <RatingDisplay rating={categoryRatings.jobSecurityRating.average} />
+                </div>
+
+                {/* Other Rating */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Друго</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {categoryRatings.otherRating.average.toFixed(1)} / 5.0
+                      <span className="text-xs text-gray-500 ml-2">
+                        ({categoryRatings.otherRating.count} {categoryRatings.otherRating.count === 1 ? 'оценка' : 'оценки'})
+                      </span>
+                    </span>
+                  </div>
+                  <RatingDisplay rating={categoryRatings.otherRating.average} />
+                </div>
+              </div>
             </div>
           </>
-        ) : null}
+        ) : (
+          <div className="bg-white rounded-lg shadow-md p-8">
+            <div className="text-center">
+              <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Няма одобрен официален профил
+              </h3>
+              <p className="text-gray-600 mb-6">
+                За да видите тази страница, трябва да имате одобрен официален профил.
+              </p>
+              <button
+                onClick={handleOpenOfficialProfileRequestModal}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Подай заявка за официален профил
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Rating Improvement Modal */}
       {showRatingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Как да подобрим рейтинга си?</h2>
-              <button
-                onClick={() => setShowRatingModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-2xl font-bold text-gray-900">Как да подобрим рейтинга си?</h3>
+                <button
+                  onClick={() => setShowRatingModal(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
 
-            {/* Modal Content */}
-            <div className="px-6 py-6 space-y-6">
-              {/* Section 1: How rating is formed */}
-              <div>
-                <div className="flex items-start gap-3 mb-3">
-                  <Star className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
-                  <h3 className="text-lg font-semibold text-gray-900">Как се формира рейтингът на фирмата</h3>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">1. Отговаряйте на всички мнения</h4>
+                  <p className="text-gray-600">
+                    Активното участие в диалога с вашите служители показва, че цените тяхното мнение и сте готови да работите за подобрения.
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed ml-9">
-                  Рейтингът се изчислява като средна стойност от оценките по пет категории: Заплащане, Работни условия, Отношение на ръководството, Сигурност на работното място и Други. Всяко ново мнение влияе директно върху общия резултат.
-                </p>
-              </div>
 
-              {/* Section 2: Role of official responses */}
-              <div>
-                <div className="flex items-start gap-3 mb-3">
-                  <Reply className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                  <h3 className="text-lg font-semibold text-gray-900">Каква е ролята на официалните отговори</h3>
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">2. Бъдете конструктивни</h4>
+                  <p className="text-gray-600">
+                    При отговор на негативни мнения, избягвайте защитна позиция. Вместо това, признайте проблемите и обяснете какви стъпки предприемате за подобрение.
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed ml-9">
-                  Официалните отговори демонстрират активно управление на репутацията. Компанията изгражда доверие, когато реагира публично и конструктивно. Макар отговорите да не променят числовия рейтинг, те подсилват възприятието на кандидати и клиенти за отговорност и прозрачност.
-                </p>
-              </div>
 
-              {/* Section 3: Why timely and reasoned responses improve perception */}
-              <div>
-                <div className="flex items-start gap-3 mb-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
-                  <h3 className="text-lg font-semibold text-gray-900">Защо навременният и аргументиран отговор подобрява възприятието</h3>
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">3. Предоставяйте доказателства</h4>
+                  <p className="text-gray-600">
+                    Когато отговаряте на мнения, можете да прикачите документи, които подкрепят вашата позиция - например политики, сертификати или други релевантни материали.
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed ml-9">
-                  Бързата и конструктивна реакция демонстрира професионализъм. Компанията изгражда доверие, когато признава проблемите и предлага решения. Навременните отговори подсилват впечатлението за зряло управление и влияят пряко върху решенията на кандидати и клиенти.
-                </p>
-              </div>
 
-              {/* Section 4: How active participation increases trust and reputation */}
-              <div>
-                <div className="flex items-start gap-3 mb-3">
-                  <Building2 className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
-                  <h3 className="text-lg font-semibold text-gray-900">Как активното участие увеличава доверието и репутацията</h3>
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">4. Работете за реални подобрения</h4>
+                  <p className="text-gray-600">
+                    Най-добрият начин да подобрите рейтинга си е да работите за реални подобрения в условията на труд, заплащането и управлението. Това ще доведе до по-позитивни мнения от вашите служители.
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed ml-9">
-                  Редовните и качествени отговори изграждат положителна репутация. Компанията демонстрира прозрачност и отвореност към диалог. Кандидатите виждат, че организацията не избягва критиката, а я използва за растеж. Това увеличава доверието и прави фирмата по-привлекателна за таланти.
-                </p>
+
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">5. Насърчавайте обратна връзка</h4>
+                  <p className="text-gray-600">
+                    Създайте култура на открита комуникация във вашата организация. Насърчавайте служителите да споделят своите мнения и предложения директно с вас.
+                  </p>
+                </div>
               </div>
 
-              {/* Summary Box */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-                <p className="text-sm text-blue-900 leading-relaxed">
-                  <strong>Съвет:</strong> Отговаряйте на всички мнения - положителни и отрицателни. Благодарете за добрите отзиви и адресирайте конструктивно критиките. Активната комуникация изгражда доверие и демонстрира ангажираност към подобрение.
-                </p>
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={() => setShowRatingModal(false)}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                >
+                  Разбрах
+                </button>
               </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4">
-              <button
-                onClick={() => setShowRatingModal(false)}
-                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-              >
-                Разбрах
-              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Subscription Modal - KEPT INTACT */}
-      <SubscriptionModal 
+      {/* Subscription Modal - LOGIC KEPT INTACT */}
+      <SubscriptionModal
         isOpen={showSubscriptionModal}
         onClose={() => setShowSubscriptionModal(false)}
       />

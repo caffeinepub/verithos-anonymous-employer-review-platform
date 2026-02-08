@@ -1,24 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Update head metadata URLs to use relative paths and verithos.io base",
+  "title": "Remove Statistics block from My Official Profile employer page",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Adjust frontend index.html head metadata to remove verithos.com, prefer relative URLs, and use verithos.io only where absolute URLs are required.",
+      "summary": "Remove the entire \"Статистика\" section from the employer \"My Official Profile\" page without altering any other UI, styling, layout, behavior, or data logic.",
       "acceptanceCriteria": [
-        "`frontend/index.html` contains no references to `verithos.com`.",
-        "`<link rel=\"canonical\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:url\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:image\">` uses a relative path (`/assets/verithos-logo-rgb-shield.png`) rather than an absolute domain URL.",
-        "`<link rel=\"dns-prefetch\">` entries do not reference `verithos.com` (replace with `//verithos.io` and, if kept, `//www.verithos.io`).",
-        "Favicon remains a relative path: `/assets/verithos-logo-rgb-shield.png`."
+        "On the employer page (My Official Profile), the card/section titled \"Статистика\" is no longer rendered.",
+        "No other sections on the page are removed, reordered, restyled, or functionally changed (e.g., company data section, rating history section, modals, navigation).",
+        "No backend changes are made.",
+        "The app builds successfully after removal."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
+          "path": "frontend/src/pages/MyOfficialProfilePage.tsx",
           "operation": "modify",
-          "description": "Update only <head> metadata URL fields: replace canonical and og:url with https://verithos.io/; replace og:image absolute URL with relative /assets/verithos-logo-rgb-shield.png; replace any dns-prefetch entries from //verithos.com and //www.verithos.com to //verithos.io (and optionally keep //www.verithos.io); ensure no remaining verithos.com references and keep favicon href as the existing relative /assets/verithos-logo-rgb-shield.png. Limit changes strictly to these metadata/URL adjustments."
+          "description": "Remove the JSX block labeled \"Statistics Panel\" that renders the \"Статистика\" title and its metric cards, leaving surrounding sections and all existing data fetching/business logic intact. After removal, perform the minimum necessary cleanup in this same file only (e.g., remove any now-unused local handler(s) or imports that would cause the TypeScript build to fail), without changing runtime behavior elsewhere."
         }
       ]
     }
