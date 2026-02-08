@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T21:33:58.462Z",
+  "generatedAt": "2026-02-08T18:56:07.247Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -12,13 +12,13 @@
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Remove the entire \"Статистика\" (Statistics) UI block from the employer page (My Official Profile page) in `frontend/src/pages/MyOfficialProfilePage.tsx`, without changing any other content, styling, layout, behavior, data fetching, or business logic on the page or elsewhere in the app.",
+        "summary": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/MyOfficialProfilePage.tsx"
+          "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/src/pages/MyOfficialProfilePage.tsx"
+          "frontend/index.html"
         ]
       }
     ]
@@ -28,7 +28,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/pages/MyOfficialProfilePage.tsx",
+    "frontend/index.html",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
