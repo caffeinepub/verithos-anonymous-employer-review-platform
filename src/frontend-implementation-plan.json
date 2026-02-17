@@ -1,24 +1,21 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Update head metadata URLs to use relative paths and verithos.io base",
+  "title": "Update LandingPage feature text from ICP wallet to ICP Identity",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Adjust frontend index.html head metadata to remove verithos.com, prefer relative URLs, and use verithos.io only where absolute URLs are required.",
+      "summary": "Replace the specified Bulgarian sentence in the “Влез анонимно” feature card without changing any other content, styling, layout, or behavior.",
       "acceptanceCriteria": [
-        "`frontend/index.html` contains no references to `verithos.com`.",
-        "`<link rel=\"canonical\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:url\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:image\">` uses a relative path (`/assets/verithos-logo-rgb-shield.png`) rather than an absolute domain URL.",
-        "`<link rel=\"dns-prefetch\">` entries do not reference `verithos.com` (replace with `//verithos.io` and, if kept, `//www.verithos.io`).",
-        "Favicon remains a relative path: `/assets/verithos-logo-rgb-shield.png`."
+        "`frontend/src/pages/LandingPage.tsx` no longer contains the exact substring “Достъп с ICP wallet, без имейл и без регистрация”.",
+        "`frontend/src/pages/LandingPage.tsx` contains the exact substring “Достъп с ICP Identity, без имейл и без регистрация” in the same location (the “Влез анонимно” feature card).",
+        "No other files are changed."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
+          "path": "frontend/src/pages/LandingPage.tsx",
           "operation": "modify",
-          "description": "Update only <head> metadata URL fields: replace canonical and og:url with https://verithos.io/; replace og:image absolute URL with relative /assets/verithos-logo-rgb-shield.png; replace any dns-prefetch entries from //verithos.com and //www.verithos.com to //verithos.io (and optionally keep //www.verithos.io); ensure no remaining verithos.com references and keep favicon href as the existing relative /assets/verithos-logo-rgb-shield.png. Limit changes strictly to these metadata/URL adjustments."
+          "description": "In the Features section, update only the paragraph text under the “Влез анонимно” card by replacing “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, leaving all other text, styling, layout, and behavior unchanged."
         }
       ]
     }

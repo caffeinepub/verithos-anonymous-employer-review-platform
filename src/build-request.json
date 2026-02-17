@@ -1,51 +1,40 @@
 {
   "kind": "build_request",
-  "title": "Replace verithos.com with relative URLs and verithos.io fallback in head metadata",
+  "title": "Update landing page login sentence to ICP Identity",
+  "projectName": "Verithos",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
+      "text": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "направи го, като на места където не е възможен абсолютен адрес, използвай адреса verithos.io"
+          "На началната страница да се замени изречението “Достъп с ICP wallet, без имейл и без регистрация” с “Достъп с ICP Identity, без имейл и без регистрация”. Не променяй нищо друго.",
+          "Стартирай"
         ]
       },
       "acceptanceCriteria": [
-        "`frontend/index.html` contains no references to `verithos.com`.",
-        "`<link rel=\"canonical\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:url\">` is set to `https://verithos.io/`.",
-        "`<meta property=\"og:image\">` uses a relative path (`/assets/verithos-logo-rgb-shield.png`) rather than an absolute domain URL.",
-        "`<link rel=\"dns-prefetch\">` entries do not reference `verithos.com` (replace with `//verithos.io` and, if kept, `//www.verithos.io`).",
-        "Favicon remains a relative path: `/assets/verithos-logo-rgb-shield.png`."
+        "`frontend/src/pages/LandingPage.tsx` no longer contains the exact substring “Достъп с ICP wallet, без имейл и без регистрация”.",
+        "`frontend/src/pages/LandingPage.tsx` contains the exact substring “Достъп с ICP Identity, без имейл и без регистрация” in the same location (the “Влез анонимно” feature card).",
+        "No other files are changed."
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
-    "Frontend changes must be limited to metadata/URL adjustments needed to remove `verithos.com` usage and apply `verithos.io` fallback as requested."
+    "Frontend immutable paths (e.g., `frontend/src/hooks/useInternetIdentity.ts(x)`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, and `frontend/src/components/ui/*`) must not be edited.",
+    "Do not modify any other homepage content beyond the single specified sentence replacement."
   ],
   "nonGoals": [
-    "Do not change page content/copy, SEO keywords, or translations beyond the minimal URL/domain replacements.",
-    "Do not add new pages, routing changes, or backend logic.",
-    "Do not implement redirects or domain verification logic; only update static `<head>` metadata."
+    "No translation or copy edits to any other Bulgarian text on the landing page.",
+    "No authentication or Internet Identity behavior changes."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

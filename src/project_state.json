@@ -2,15 +2,13 @@
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
   "summary": "New project",
-  "architectural_notes": [
-    "Prefer relative URLs in <head> metadata (canonical, OG tags, asset URLs) to remain domain-agnostic; when an absolute URL is required, standardize on verithos.io."
-  ],
+  "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-frontend-index-html-head-metadata-so-that-all-urls-use-relative-paths-where-valid-and-use-the-absolute-base-domain-verithos-io-only-where-a-relative-url-is-not-appropriate-e-g-canonical-and-open-graph-page-url-replace-any-remaining-verithos-com-references-accordingly",
-      "title": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
+      "id": "feature-in-the-landing-page-features-section-replace-the-sentence-icp-wallet-with-icp-identity-and-do-not-change-any-other-text-styling-layout-or-behavior",
+      "title": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
       "reqIds": [
         "REQ-1"
       ],
@@ -20,12 +18,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Update <head> metadata to use relative URLs; where relative is not possible, use verithos.io (replace verithos.com in canonical/og:url/og:image/dns-prefetch etc.)",
+      "summary": "Replace homepage sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация” (no other changes).",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Replace verithos.com with relative URLs and verithos.io fallback in head metadata",
+  "projectName": "Verithos",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

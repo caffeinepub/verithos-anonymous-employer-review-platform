@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-frontend-index-html-head-metadata-so-that-all-urls-use-relative-paths-where-valid-and-use-the-absolute-base-domain-verithos-io-only-where-a-relative-url-is-not-appropriate-e-g-canonical-and-open-graph-page-url-replace-any-remaining-verithos-com-references-accordingly",
-      "featureTitle": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
+      "featureId": "feature-in-the-landing-page-features-section-replace-the-sentence-icp-wallet-with-icp-identity-and-do-not-change-any-other-text-styling-layout-or-behavior",
+      "featureTitle": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
       "files": [
-        "frontend/index.html"
+        "frontend/src/pages/LandingPage.tsx"
       ],
       "components": [
         "authorization@1.0.1",

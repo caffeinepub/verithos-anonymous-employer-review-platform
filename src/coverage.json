@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T18:56:07.247Z",
+  "generatedAt": "2026-02-17T18:25:43.858Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -12,23 +12,25 @@
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update `frontend/index.html` `<head>` metadata so that all URLs use relative paths where valid, and use the absolute base domain `verithos.io` only where a relative URL is not appropriate (e.g., canonical and Open Graph page URL). Replace any remaining `verithos.com` references accordingly.",
+        "summary": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/index.html"
+          "frontend/src/pages/LandingPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/index.html"
+          "frontend/src/pages/LandingPage.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
+    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
+    "frontend/src/config.ts",
+    "frontend/src/pages/LandingPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -146,7 +146,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Влез анонимно</h3>
               <p className="text-gray-600">
-                Достъп с ICP wallet, без имейл и без регистрация
+                Достъп с ICP Identity, без имейл и без регистрация
               </p>
             </div>
             

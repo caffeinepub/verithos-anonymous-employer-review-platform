@@ -1,29 +1,41 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T18:56:07.244Z",
-  "summary": "REQ-1 appears implemented in frontend/index.html (verithos.com removed; canonical/og:url set to https://verithos.io/; og:image and favicon use relative /assets/...; dns-prefetch uses verithos.io and www.verithos.io). However, the diff also includes substantial unrelated frontend component/style/hook changes that go beyond the requested metadata/URL-only scope.",
-  "missing_requirements": [],
-  "hallucinated_features": [
+  "generatedAt": "2026-02-17T18:25:43.855Z",
+  "summary": "REQ-1 is not verifiably implemented from the truncated LandingPage.tsx diff, and the diff violates the constraint/AC that no other files be changed. The LandingPage.tsx changes shown also introduce new scroll-restoration behavior not requested and disallowed by the “single sentence replacement only” constraint.",
+  "missing_requirements": [
     {
-      "description": "Multiple unrelated frontend feature/UI changes (routing/CTA rendering, new menu item, admin/request modals logic changes, file upload behavior changes, styling updates, etc.) beyond static <head> metadata adjustments.",
-      "reason": "BuildRequest constraints limit changes to metadata/URL adjustments to remove verithos.com usage and apply verithos.io fallback; these changes alter application behavior and UI.",
+      "id": "REQ-1",
+      "requirement": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, without changing any other text/styling/layout/behavior, and with no other files changed.",
+      "reason": "The LandingPage.tsx diff content is truncated before the features section, so there is no evidence that the exact required substring replacement occurred in the “Влез анонимно” feature card. Additionally, other files were modified, violating the requirement/AC that no other files change.",
       "evidence": [
-        "frontend-file-summaries.txt (entries for frontend/src/App.tsx, frontend/src/components/MobileMenu.tsx, frontend/src/components/OfficialProfileRequestModal.tsx, frontend/src/index.css, frontend/src/hooks/useQueries.ts, frontend/src/pages/AdminOfficialProfileRequestsPage.tsx, frontend/src/components/OfficialResponseModal.tsx, frontend/src/pages/CompanyPage.tsx, frontend/src/components/ReviewSubmissionModal.tsx, frontend/src/blob-storage/FileStorage.ts, etc.)"
-      ]
-    },
-    {
-      "description": "Updated project tracking/state metadata unrelated to implementing the requested head-tag URL changes.",
-      "reason": "BuildRequest does not request modifications to project_state.json; it only requests static <head> metadata updates in frontend/index.html.",
-      "evidence": [
+        "frontend/src/pages/LandingPage.tsx (truncated before the relevant features card text appears)",
+        "frontend-file-summaries.txt",
         "project_state.json"
       ]
     }
   ],
-  "confidence": 0.74,
+  "hallucinated_features": [
+    {
+      "description": "Added scroll-to-top and scroll restoration management on LandingPage load via a new useEffect (window.scrollTo, history.scrollRestoration toggling, delayed scroll).",
+      "reason": "BuildRequest explicitly restricts changes to a single sentence replacement and forbids changing any other homepage behavior; this introduces new runtime behavior unrelated to the copy change.",
+      "evidence": [
+        "frontend/src/pages/LandingPage.tsx"
+      ]
+    },
+    {
+      "description": "Modified additional non-requested files (frontend-file-summaries.txt and project_state.json).",
+      "reason": "Acceptance Criteria states “No other files are changed.” These modifications are outside the single-file/single-sentence scope.",
+      "evidence": [
+        "frontend-file-summaries.txt",
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.78,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/index.html",
+    "frontend/src/pages/LandingPage.tsx",
     "project_state.json"
   ]
 }

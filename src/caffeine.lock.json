@@ -15,7 +15,7 @@
     "user-approval": "1.0.0",
     "github-export-icp-cli": "1.0.0"
   },
-  "aiCoreVersion": "0.19.5",
+  "aiCoreVersion": "0.19.9",
   "failedMigrationVersion": "0.11.3",
   "motokoVersion": "0.16.3-caffeine-4",
   "tags": []
