@@ -1,16 +1,28 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
-  "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
+  "summary": "Website project (verithos.io): manage UI modal text without altering design; add SEO root files (robots.txt, sitemap.xml).",
+  "architectural_notes": [
+    "SEO files must be placed in the website root: /robots.txt and /sitemap.xml; robots.txt should reference https://verithos.io/sitemap.xml."
+  ],
+  "known_issues": [
+    "Possible regression: modal design appears changed after a text-only update; needs verification to ensure styles/layout remain unchanged."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-in-the-landing-page-features-section-replace-the-sentence-icp-wallet-with-icp-identity-and-do-not-change-any-other-text-styling-layout-or-behavior",
-      "title": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
+      "id": "feature-create-a-robots-txt-file-at-the-website-root-so-it-is-publicly-accessible-at-https-verithos-io-robots-txt-with-exactly-the-following-contents-user-agent-allow-sitemap-https-verithos-io-sitemap-xml",
+      "title": "Create a robots.txt file at the website root so it is publicly accessible at https://verithos.io/robots.txt, with exactly the following contents:\n\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml",
       "reqIds": [
         "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-sitemap-xml-file-at-the-website-root-so-it-is-publicly-accessible-at-https-verithos-io-sitemap-xml-with-exactly-the-following-contents-xml-version-1-0-encoding-utf-8-urlset-xmlns-http-www-sitemaps-org-schemas-sitemap-0-9-url-loc-https-verithos-io-loc-lastmod-2026-02-17-lastmod-changefreq-monthly-changefreq-priority-1-0-priority-url-urlset",
+      "title": "Create a sitemap.xml file at the website root so it is publicly accessible at https://verithos.io/sitemap.xml, with exactly the following contents:\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>",
+      "reqIds": [
+        "REQ-2"
       ],
       "version": 1
     }
@@ -18,7 +30,13 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Replace homepage sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация” (no other changes).",
+      "summary": "Create robots.txt in site root with provided directives and sitemap link",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Create sitemap.xml in site root with provided URL entry for https://verithos.io/",
       "reqIds": [],
       "status": "pending"
     }

@@ -1,36 +1,46 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T18:25:43.858Z",
+  "generatedAt": "2026-02-17T19:31:27.466Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
+        "summary": "Create a robots.txt file at the website root so it is publicly accessible at https://verithos.io/robots.txt, with exactly the following contents:\n\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/LandingPage.tsx"
+          "frontend/public/robots.txt"
         ],
         "matchedFiles": [
-          "frontend/src/pages/LandingPage.tsx"
+          "frontend/public/robots.txt"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Create a sitemap.xml file at the website root so it is publicly accessible at https://verithos.io/sitemap.xml, with exactly the following contents:\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/sitemap.xml"
+        ],
+        "matchedFiles": [
+          "frontend/public/sitemap.xml"
         ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/config.ts",
-    "frontend/src/pages/LandingPage.tsx",
+    "frontend/public/robots.txt",
+    "frontend/public/sitemap.xml",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

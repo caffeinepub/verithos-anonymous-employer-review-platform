@@ -1,41 +1,39 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T18:25:43.855Z",
-  "summary": "REQ-1 is not verifiably implemented from the truncated LandingPage.tsx diff, and the diff violates the constraint/AC that no other files be changed. The LandingPage.tsx changes shown also introduce new scroll-restoration behavior not requested and disallowed by the “single sentence replacement only” constraint.",
+  "generatedAt": "2026-02-17T19:31:27.463Z",
+  "summary": "robots.txt and sitemap.xml were added under frontend/public, but robots.txt content appears to include an extra trailing blank line versus the required exact text. Additionally, the diff summary indicates changes beyond adding the two SEO root files, which violates the BuildRequest constraints/non-goals.",
   "missing_requirements": [
     {
       "id": "REQ-1",
-      "requirement": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, without changing any other text/styling/layout/behavior, and with no other files changed.",
-      "reason": "The LandingPage.tsx diff content is truncated before the features section, so there is no evidence that the exact required substring replacement occurred in the “Влез анонимно” feature card. Additionally, other files were modified, violating the requirement/AC that no other files change.",
+      "requirement": "robots.txt contents must exactly match the provided text (including newlines).",
+      "reason": "The added robots.txt includes a trailing blank line after the Sitemap line, which may cause the file contents to not exactly match the required text.",
       "evidence": [
-        "frontend/src/pages/LandingPage.tsx (truncated before the relevant features card text appears)",
-        "frontend-file-summaries.txt",
-        "project_state.json"
+        "frontend/public/robots.txt"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Added scroll-to-top and scroll restoration management on LandingPage load via a new useEffect (window.scrollTo, history.scrollRestoration toggling, delayed scroll).",
-      "reason": "BuildRequest explicitly restricts changes to a single sentence replacement and forbids changing any other homepage behavior; this introduces new runtime behavior unrelated to the copy change.",
+      "description": "Changes to UI/components/styles and other application logic beyond adding robots.txt and sitemap.xml.",
+      "reason": "BuildRequest constraints say to only add the two root SEO files and not change existing UI/design/layout/styling or other files; however the modified file summary lists many component/hook/style/config changes.",
       "evidence": [
-        "frontend/src/pages/LandingPage.tsx"
+        "frontend-file-summaries.txt"
       ]
     },
     {
-      "description": "Modified additional non-requested files (frontend-file-summaries.txt and project_state.json).",
-      "reason": "Acceptance Criteria states “No other files are changed.” These modifications are outside the single-file/single-sentence scope.",
+      "description": "Updates to project tracking/state metadata unrelated to serving robots.txt and sitemap.xml.",
+      "reason": "The BuildRequest only asks to add two static SEO files; project_state.json was modified.",
       "evidence": [
-        "frontend-file-summaries.txt",
         "project_state.json"
       ]
     }
   ],
-  "confidence": 0.78,
+  "confidence": 0.72,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/pages/LandingPage.tsx",
+    "frontend/public/robots.txt",
+    "frontend/public/sitemap.xml",
     "project_state.json"
   ]
 }

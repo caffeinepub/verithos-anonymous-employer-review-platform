@@ -1,12 +1,12 @@
 {
   "kind": "build_request",
-  "title": "Update landing page login sentence to ICP Identity",
+  "title": "Add robots.txt and sitemap.xml to site root",
   "projectName": "Verithos",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
+      "text": "Create a robots.txt file at the website root so it is publicly accessible at https://verithos.io/robots.txt, with exactly the following contents:\n\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml",
       "target": "frontend",
       "source": {
         "messageIds": [
@@ -14,27 +14,56 @@
           "msg-2"
         ],
         "quotes": [
-          "На началната страница да се замени изречението “Достъп с ICP wallet, без имейл и без регистрация” с “Достъп с ICP Identity, без имейл и без регистрация”. Не променяй нищо друго.",
-          "Стартирай"
+          "Ето ти съдържанието на двата файла: \"robots.txt\":\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml",
+          "изгради"
         ]
       },
       "acceptanceCriteria": [
-        "`frontend/src/pages/LandingPage.tsx` no longer contains the exact substring “Достъп с ICP wallet, без имейл и без регистрация”.",
-        "`frontend/src/pages/LandingPage.tsx` contains the exact substring “Достъп с ICP Identity, без имейл и без регистрация” in the same location (the “Влез анонимно” feature card).",
-        "No other files are changed."
+        "Requesting /robots.txt returns HTTP 200 and the file contents exactly match the user-provided text (including newlines).",
+        "The robots.txt file is served as a static file from the site root (not via a React route)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a sitemap.xml file at the website root so it is publicly accessible at https://verithos.io/sitemap.xml, with exactly the following contents:\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-2"
+        ],
+        "quotes": [
+          "\"sitemap.xml\":\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>",
+          "изгради"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Requesting /sitemap.xml returns HTTP 200 and the file contents exactly match the user-provided XML (including indentation/newlines).",
+        "The sitemap.xml file is served as a static file from the site root (not via a React route)."
       ]
     }
   ],
   "constraints": [
-    "Frontend immutable paths (e.g., `frontend/src/hooks/useInternetIdentity.ts(x)`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, and `frontend/src/components/ui/*`) must not be edited.",
-    "Do not modify any other homepage content beyond the single specified sentence replacement."
+    "Do not modify any files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui.",
+    "Do not change any existing UI design/layout/styling as part of this change; only add the two root SEO files."
   ],
   "nonGoals": [
-    "No translation or copy edits to any other Bulgarian text on the landing page.",
-    "No authentication or Internet Identity behavior changes."
+    "Do not implement dynamic sitemap generation.",
+    "Do not add additional sitemap URLs beyond the single provided homepage URL.",
+    "Do not change existing meta tags, canonical URL, or other SEO settings outside adding these two files."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

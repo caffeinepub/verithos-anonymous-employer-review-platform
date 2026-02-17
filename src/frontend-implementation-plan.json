@@ -1,21 +1,35 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Update LandingPage feature text from ICP wallet to ICP Identity",
+  "title": "Add root-level robots.txt and sitemap.xml static files",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Replace the specified Bulgarian sentence in the “Влез анонимно” feature card without changing any other content, styling, layout, or behavior.",
+      "summary": "Add a root-level robots.txt served as a static file with the exact provided contents.",
       "acceptanceCriteria": [
-        "`frontend/src/pages/LandingPage.tsx` no longer contains the exact substring “Достъп с ICP wallet, без имейл и без регистрация”.",
-        "`frontend/src/pages/LandingPage.tsx` contains the exact substring “Достъп с ICP Identity, без имейл и без регистрация” in the same location (the “Влез анонимно” feature card).",
-        "No other files are changed."
+        "Requesting /robots.txt returns HTTP 200 and the file contents exactly match the user-provided text (including newlines).",
+        "The robots.txt file is served as a static file from the site root (not via a React route)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "modify",
-          "description": "In the Features section, update only the paragraph text under the “Влез анонимно” card by replacing “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, leaving all other text, styling, layout, and behavior unchanged."
+          "path": "frontend/public/robots.txt",
+          "operation": "create",
+          "description": "Create a static robots.txt file in the frontend public root so it is served at /robots.txt with exactly this content and newlines:\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml"
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add a root-level sitemap.xml served as a static file with the exact provided XML contents.",
+      "acceptanceCriteria": [
+        "Requesting /sitemap.xml returns HTTP 200 and the file contents exactly match the user-provided XML (including indentation/newlines).",
+        "The sitemap.xml file is served as a static file from the site root (not via a React route)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/sitemap.xml",
+          "operation": "create",
+          "description": "Create a static sitemap.xml file in the frontend public root so it is served at /sitemap.xml with exactly this XML (including indentation and newlines):\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>"
         }
       ]
     }

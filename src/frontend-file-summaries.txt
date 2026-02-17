@@ -35,5 +35,7 @@
   "frontend/src/hooks/usePdfObjectUrl.ts": "Custom React hook that fetches a PDF from a remote URL and returns a blob object URL suitable for inline iframe rendering without triggering auto-download, with automatic cleanup on unmount or URL change.",
   "frontend/src/components/MultipleEvidenceModal.tsx": "Multi-file evidence modal with navigation, thumbnail preview, and archive download functionality using ArchiveDownloader component that resolves all file URLs via useFileUrl hook (converting undefined to null for type compatibility) to ensure consistent authentication with single-file downloads.",
   "frontend/src/utils/evidenceArchiveDownload.ts": "Shared utility for creating ZIP archives from evidence files using pre-resolved URLs with proper authentication, ensuring binary-safe fetching and consistent file access with single-file downloads.",
-  "frontend/src/hooks/useEvidenceArchiveDownload.ts": "Custom React hook placeholder for evidence archive downloads (currently not used as URL resolution is handled directly in components via useFileUrl)."
+  "frontend/src/hooks/useEvidenceArchiveDownload.ts": "Custom React hook placeholder for evidence archive downloads (currently not used as URL resolution is handled directly in components via useFileUrl).",
+  "frontend/public/robots.txt": "Static robots.txt file allowing all crawlers and pointing to the sitemap at verithos.io/sitemap.xml.",
+  "frontend/public/sitemap.xml": "Static XML sitemap listing the homepage with last modification date, change frequency, and priority for search engine indexing."
 }

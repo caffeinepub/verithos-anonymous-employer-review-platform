@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-in-the-landing-page-features-section-replace-the-sentence-icp-wallet-with-icp-identity-and-do-not-change-any-other-text-styling-layout-or-behavior",
-      "featureTitle": "In the landing page features section, replace the sentence “Достъп с ICP wallet, без имейл и без регистрация” with “Достъп с ICP Identity, без имейл и без регистрация”, and do not change any other text, styling, layout, or behavior.",
+      "featureId": "feature-create-a-robots-txt-file-at-the-website-root-so-it-is-publicly-accessible-at-https-verithos-io-robots-txt-with-exactly-the-following-contents-user-agent-allow-sitemap-https-verithos-io-sitemap-xml",
+      "featureTitle": "Create a robots.txt file at the website root so it is publicly accessible at https://verithos.io/robots.txt, with exactly the following contents:\n\nUser-agent: *\nAllow: /\n\nSitemap: https://verithos.io/sitemap.xml",
       "files": [
-        "frontend/src/pages/LandingPage.tsx"
+        "frontend/public/robots.txt"
       ],
       "components": [
         "authorization@1.0.1",
@@ -21,6 +21,29 @@
       ],
       "testIds": [
         "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-sitemap-xml-file-at-the-website-root-so-it-is-publicly-accessible-at-https-verithos-io-sitemap-xml-with-exactly-the-following-contents-xml-version-1-0-encoding-utf-8-urlset-xmlns-http-www-sitemaps-org-schemas-sitemap-0-9-url-loc-https-verithos-io-loc-lastmod-2026-02-17-lastmod-changefreq-monthly-changefreq-priority-1-0-priority-url-urlset",
+      "featureTitle": "Create a sitemap.xml file at the website root so it is publicly accessible at https://verithos.io/sitemap.xml, with exactly the following contents:\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n   <url>\n      <loc>https://verithos.io/</loc>\n      <lastmod>2026-02-17</lastmod>\n      <changefreq>monthly</changefreq>\n      <priority>1.0</priority>\n   </url>\n</urlset>",
+      "files": [
+        "frontend/public/sitemap.xml"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@1.1.2",
+        "stripe@1.0.1",
+        "http-outcalls@1.1.1",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "user-approval@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
       ],
       "confidence": "high"
     }
